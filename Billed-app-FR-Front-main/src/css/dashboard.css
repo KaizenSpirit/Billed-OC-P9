@@ -117,3 +117,7 @@
   cursor: pointer;
 }
 
+.modal-body div img{
+  width: 90%;
+  height: 700px;
+}
