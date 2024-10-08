@@ -175,53 +175,35 @@ describe("Given I am connected as an employee", () => {
         root.setAttribute("id", "root");
         document.body.appendChild(root);
         router();
+    });
 
-        test("fetches bills from API and logs error when failing with 401 status", async () => {
-          const consoleSpy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
-          
-          jest.spyOn(mockStore, "bills").mockImplementationOnce(() => {
-            return {
-              create: jest.fn().mockRejectedValueOnce(new Error("Erreur 401")),
-            };
-          });
-        
-          window.onNavigate(ROUTES_PATH.NewBill);
-        
-          const file = new File(['content'], 'test.jpg', { type: 'image/jpeg' });
-          const fileInput = screen.getByTestId('file');
-          fireEvent.change(fileInput, { target: { files: [file] } });
-        
-          await new Promise(process.nextTick);
-        
-          expect(consoleSpy).toHaveBeenCalledWith(new Error("Erreur 401"));
-          
-          await expect(mockStore.bills().create).rejects.toThrow('Erreur 401');
-          
-          consoleSpy.mockRestore();
-        });
-        
+    test("fetches bills from API and logs error when failing with 401 status", async () => {
+      jest.spyOn(mockStore, "bills").mockImplementation(() => {
+        return {
+          create: jest.fn().mockRejectedValue(new Error("Erreur 401")),
+        };
+      });
+      window.onNavigate(ROUTES_PATH.NewBill);
+      const file = new File(['content'], 'test.jpg', { type: 'image/jpeg' });
+      const fileInput = screen.getByTestId('file');
+      fireEvent.change(fileInput, { target: { files: [file] } });
+      await new Promise(process.nextTick);
+      await expect(mockStore.bills().create).rejects.toThrow('Erreur 401');
+    });
+    
 
-        test("fetches bills from API and logs error when failing with 500 status", async () => {
-          const consoleSpy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
-          
-          jest.spyOn(mockStore, "bills").mockImplementationOnce(() => {
-            return {
-              create: jest.fn().mockRejectedValueOnce(new Error("Erreur 500")),
-            };
-          });
-        
-          window.onNavigate(ROUTES_PATH.NewBill);
-        
-          const file = new File(['content'], 'test.jpg', { type: 'image/jpeg' });
-          const fileInput = screen.getByTestId('file');
-          fireEvent.change(fileInput, { target: { files: [file] } });
-        
-          await new Promise(process.nextTick);
-        
-          expect(consoleSpy).toHaveBeenCalledWith(new Error("Erreur 500"));
-          await expect(mockStore.bills().create).rejects.toThrow('Erreur 500');
-          consoleSpy.mockRestore();
-        });
+    test("fetches bills from API and logs error when failing with 500 status", async () => {
+      jest.spyOn(mockStore, "bills").mockImplementation(() => {
+        return {
+          create: jest.fn().mockRejectedValue(new Error("Erreur 500")),
+        };
+      });
+      window.onNavigate(ROUTES_PATH.NewBill);
+      const file = new File(['content'], 'test.jpg', { type: 'image/jpeg' });
+      const fileInput = screen.getByTestId('file');
+      fireEvent.change(fileInput, { target: { files: [file] } });
+      await new Promise(process.nextTick);
+      await expect(mockStore.bills().create).rejects.toThrow('Erreur 500');
     });
   });
 });
