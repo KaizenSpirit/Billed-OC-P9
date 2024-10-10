@@ -41,12 +41,17 @@ export default class NewBill {
           noContentType: true
         }
       })
-      .then(({fileUrl, key}) => {
-        console.log(fileUrl)
-        this.billId = key
-        this.fileUrl = fileUrl
-        this.fileName = fileName
-      }).catch(error => console.error(error))
+      .then((res) => {
+        if(res && res.fileUrl && res.key){
+          this.billId = res.key;
+          this.fileUrl = res.fileUrl
+        }
+      })
+      .catch(() => {
+        const errorMessage = document.createElement("div");
+        errorMessage.textContent = "Une erreur est survenue lors de l'envoi du fichier.";
+        document.body.appendChild(errorMessage);
+      });
   }
   handleSubmit = e => {
     e.preventDefault()
