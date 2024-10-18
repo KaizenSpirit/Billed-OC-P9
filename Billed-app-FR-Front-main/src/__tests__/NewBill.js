@@ -27,7 +27,7 @@ beforeEach(() => {
 
 describe("Given I am connected as an employee", () => {
   describe("When I upload a file", () => {
-    test("should update fileName when extension is valid", () => {
+    test("Then it should update fileName when extension is valid", () => {
       document.body.innerHTML = NewBillUI();
 
       const newBill = new NewBill({
@@ -50,7 +50,7 @@ describe("Given I am connected as an employee", () => {
       expect(newBill.fileName).toBe("sample.jpg");
     });
 
-    test("should trigger alert and reset input when extension is invalid", () => {
+    test("Then it should trigger alert and reset input when extension is invalid", () => {
       document.body.innerHTML = NewBillUI();
 
       const newBill = new NewBill({
@@ -177,7 +177,7 @@ describe("Given I am connected as an employee", () => {
         router();
     });
 
-    test("fetches bills from API and logs error when failing with 401 status", async () => {
+    test("Then it fetches bills from API and logs error when failing with 401 status", async () => {
       jest.spyOn(mockStore, "bills").mockImplementation(() => {
         return {
           create: jest.fn().mockRejectedValue(new Error("Erreur 401")),
@@ -192,7 +192,7 @@ describe("Given I am connected as an employee", () => {
     });
     
 
-    test("fetches bills from API and logs error when failing with 500 status", async () => {
+    test("Then it fetches bills from API and logs error when failing with 500 status", async () => {
       jest.spyOn(mockStore, "bills").mockImplementation(() => {
         return {
           create: jest.fn().mockRejectedValue(new Error("Erreur 500")),
